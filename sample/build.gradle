@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.stardust.theme.sample"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -20,17 +19,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.stardust.theme.sample'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+        encoding = 'utf-8'
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1-alpha01', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.material:material:1.1.0-alpha01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
-    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.5.1')
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'com.google.android.material:material:1.9.0-alpha01'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0-alpha06'
+    testImplementation 'junit:junit:4.13.2'
     implementation project(':mutable-theme')
     implementation 'com.jrummyapps:colorpicker:2.1.5'
 }

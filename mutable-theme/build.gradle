@@ -1,14 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 100
-        versionName "1.0.0"
+        targetSdkVersion 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -19,16 +16,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.stardust.theme'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+        encoding = 'utf-8'
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1-alpha01', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testImplementation 'junit:junit:4.12'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha01'
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.5.1')
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.google.android.material:material:1.9.0-alpha01'
     api 'com.jrummyapps:colorpicker:2.1.5'
     implementation ('com.github.ozodrukh:CircularReveal:2.0.1@aar')
 }
