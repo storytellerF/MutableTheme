@@ -35,5 +35,4 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0-alpha06'
     testImplementation 'junit:junit:4.13.2'
     implementation project(':mutable-theme')
-    implementation 'com.jrummyapps:colorpicker:2.1.5'
 }

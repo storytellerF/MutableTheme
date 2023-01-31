@@ -1,22 +1,10 @@
 package com.stardust.theme.app;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ThemeColorRecyclerView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,9 +13,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.ThemeColorRecyclerView;
+
 import com.google.android.material.appbar.AppBarLayout;
-import com.jrummyapps.android.colorpicker.ColorPickerDialog;
-import com.jrummyapps.android.colorpicker.ColorPickerDialogListener;
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.stardust.theme.R;
 import com.stardust.theme.ThemeColor;
 import com.stardust.theme.ThemeColorHelper;
@@ -68,11 +67,10 @@ public class ColorSelectActivity extends AppCompatActivity {
     private static List<ColorItem> colorItems = new ArrayList<>();
     private String mTitle;
 
-    private Toolbar mToolbar;
     private AppBarLayout mAppBarLayout;
     private int mCurrentColor;
     private ColorSettingRecyclerView mColorSettingRecyclerView;
-    private ColorSettingRecyclerView.OnItemClickListener mOnItemClickListener = new ColorSettingRecyclerView.OnItemClickListener() {
+    private final ColorSettingRecyclerView.OnItemClickListener mOnItemClickListener = new ColorSettingRecyclerView.OnItemClickListener() {
         @Override
         public void onItemClick(View v, int position) {
             ThemeColor color = mColorSettingRecyclerView.getSelectedThemeColor();
@@ -134,16 +132,11 @@ public class ColorSelectActivity extends AppCompatActivity {
     }
 
     private void setUpToolbar() {
-        mToolbar = findViewById(R.id.toolbar);
+        Toolbar mToolbar = findViewById(R.id.toolbar);
         mToolbar.setTitle(mTitle);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> finish());
     }
 
     @Override
@@ -164,14 +157,14 @@ public class ColorSelectActivity extends AppCompatActivity {
 
         private static final int SELECT_NONE = -1;
 
-        private List<ColorItem> mColors = new ArrayList<>();
+        private final List<ColorItem> mColors = new ArrayList<>();
         private OnItemClickListener mOnItemClickListener;
-        private View.OnClickListener mActualOnItemClickListener = new OnClickListener() {
+        private final View.OnClickListener mActualOnItemClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 RecyclerView.ViewHolder holder = getChildViewHolder(v);
                 if (holder != null) {
-                    int position = holder.getAdapterPosition();
+                    int position = holder.getAbsoluteAdapterPosition();
                     if (position == mColors.size() - 1) {
                         showColorPicker(v);
                     } else {
@@ -272,8 +265,8 @@ public class ColorSelectActivity extends AppCompatActivity {
 
                 }
             });
-            Activity activity = (Activity) getContext();
-            dialog.show(activity.getFragmentManager(), "Tag");
+            FragmentActivity activity = (FragmentActivity) getContext();
+            dialog.show(activity.getSupportFragmentManager(), "Tag");
         }
 
 
@@ -289,8 +282,9 @@ public class ColorSelectActivity extends AppCompatActivity {
 
         private class Adapter extends RecyclerView.Adapter<ViewHolder> {
 
+            @NonNull
             @Override
-            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 return new ViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.mt_color_setting_recycler_view_item, parent, false));
             }
 
